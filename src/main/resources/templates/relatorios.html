@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Relatórios</title>
+</head>
+<body>
+    <h1>Relatórios</h1>
+    <a href="/produtos">Voltar</a>
+
+    <h2>Vendas</h2>
+    <ul>
+        <li th:each="venda : ${vendas}" th:text="${venda}"></li>
+    </ul>
+    <p>Total Vendido: R$ <span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
+
+    <h2>Estoque Baixo</h2>
+    <ul>
+        <li th:each="p : ${produtos}" th:if="${p.quantidadeEstoque} < 10">
+            [[${p.descricao}]] - [[${p.quantidadeEstoque}]] un.
+        </li>
+    </ul>
+</body>
+</html>
