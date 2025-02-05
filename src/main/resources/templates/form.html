@@ -1,19 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Formulário</title>
+    <title>Novo Produto</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+        .btn-custom {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1 th:text="${produto.codigo} ? 'Editar Produto' : 'Novo Produto'"></h1>
-    <form th:action="@{/produtos/salvar}" method="post" th:object="${produto}">
-        <input type="hidden" th:field="*{codigo}">
-        Código: <input th:field="*{codigo}" required><br>
-        Descrição: <input th:field="*{descricao}" required><br>
-        Marca: <input th:field="*{marca}" required><br>
-        Valor Entrada: <input type="number" step="0.01" th:field="*{valorEntrada}" required><br>
-        Valor Saída: <input type="number" step="0.01" th:field="*{valorSaida}" required><br>
-        Estoque: <input type="number" th:field="*{quantidadeEstoque}" required><br>
-        <button type="submit">Salvar</button>
-    </form>
+    <div class="form-container">
+        <h2>Novo Produto</h2>
+        <form th:action="@{/produtos/salvar}" method="post" th:object="${produto}">
+            <!-- Código -->
+            <div class="mb-3">
+                <label for="codigo" class="form-label">Código</label>
+                <input type="text" class="form-control" id="codigo" th:field="*{codigo}" required>
+            </div>
+
+            <!-- Descrição -->
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="descricao" th:field="*{descricao}" required>
+            </div>
+
+            <!-- Marca -->
+            <div class="mb-3">
+                <label for="marca" class="form-label">Marca</label>
+                <input type="text" class="form-control" id="marca" th:field="*{marca}" required>
+            </div>
+
+            <!-- Valor Entrada -->
+            <div class="mb-3">
+                <label for="valorEntrada" class="form-label">Valor Entrada</label>
+                <input type="number" step="0.01" class="form-control" id="valorEntrada" th:field="*{valorEntrada}" required>
+            </div>
+
+            <!-- Valor Saída -->
+            <div class="mb-3">
+                <label for="valorSaida" class="form-label">Valor Saída</label>
+                <input type="number" step="0.01" class="form-control" id="valorSaida" th:field="*{valorSaida}" required>
+            </div>
+
+            <!-- Quantidade em Estoque -->
+            <div class="mb-3">
+                <label for="quantidadeEstoque" class="form-label">Quantidade em Estoque</label>
+                <input type="number" class="form-control" id="quantidadeEstoque" th:field="*{quantidadeEstoque}" required>
+            </div>
+
+            <!-- Botão Salvar -->
+            <button type="submit" class="btn btn-primary btn-custom">Salvar</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
