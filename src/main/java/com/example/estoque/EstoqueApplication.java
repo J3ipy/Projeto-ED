@@ -1,13 +1,13 @@
-package ifs.edu.br;
+package com.example.estoque;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GerenciamentoDeEstoqueApplication {
+public class EstoqueApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GerenciamentoDeEstoqueApplication.class, args);
+		SpringApplication.run(EstoqueApplication.class, args);
 	}
 
 }

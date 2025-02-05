@@ -1,10 +1,10 @@
-package ifs.edu.br;
+package com.example.estoque;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GerenciamentoDeEstoqueApplicationTests {
+class EstoqueApplicationTests {
 
 	@Test
 	void contextLoads() {
