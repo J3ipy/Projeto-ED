@@ -24,7 +24,7 @@
     <!-- Barra de Navegação -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Controle de Estoque</a>
+            <a class="navbar-brand" href="/">Controle de Estoque</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -36,8 +36,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/produtos/relatorios">Relatórios</a>
                     </li>
+                    
                 </ul>
             </div>
+            <div class="search-bar">
+                <form th:action="@{/produtos/buscar}" method="get" class="d-flex">
+                    <input type="text" class="form-control me-2" placeholder="Buscar código" name="codigo" required>
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </form>
+                <!-- Exibir mensagem caso não encontre o produto -->
+                <div th:if="${mensagem}" class="alert alert-warning">
+                    <span th:text="${mensagem}"></span>
+<               /div>
+
+            </div>
+
         </div>
     </nav>
 

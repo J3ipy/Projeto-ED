@@ -5,41 +5,47 @@ import com.example.estoque.service.ProdutoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
+
 
 @Controller
 @RequestMapping("/produtos")
 public class ProdutoController {
-    private final ProdutoService service;
+    private final ProdutoService produtoService;
 
-    public ProdutoController(ProdutoService service) {
-        this.service = service;
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+        System.out.println("ProdutoService injetado: " + produtoService);
     }
 
     // Listar produtos
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("produtos", service.getTodosProdutos());
+    public String listarProdutos(Model model) {
+        model.addAttribute("produtos", produtoService.getTodosProdutos());
         return "listar";
     }
 
     // Formulário de cadastro
     @GetMapping("/novo")
-    public String novoProduto(Model model) {
+    public String formNovoProduto(Model model) {
         model.addAttribute("produto", new Produto());
         return "form";
     }
 
     // Salvar produto
+    // ProdutoController.java
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Produto produto) {
-        service.adicionarProduto(produto);
+    public String salvarProduto(@ModelAttribute Produto produto){
+        produtoService.salvarProduto(produto);
         return "redirect:/produtos";
     }
+
 
     // Editar produto
     @GetMapping("/editar/{codigo}")
     public String editar(@PathVariable String codigo, Model model) {
-        Produto produto = service.buscarPorCodigo(codigo);
+        Produto produto = produtoService.buscarPorCodigo(codigo);
         model.addAttribute("produto", produto);
         return "form";
     }
@@ -47,28 +53,28 @@ public class ProdutoController {
     // Repor estoque
     @PostMapping("/repor")
     public String repor(@RequestParam String codigo, @RequestParam int quantidade) {
-        service.reporEstoque(codigo, quantidade);
+        produtoService.reporEstoque(codigo, quantidade);
         return "redirect:/produtos";
     }
 
     // Vender produto
     @PostMapping("/vender")
     public String vender(@RequestParam String codigo, @RequestParam int quantidade) {
-        service.venderProduto(codigo, quantidade);
+        produtoService.venderProduto(codigo, quantidade);
         return "redirect:/produtos";
     }
 
     // Ordenar por nome
     @GetMapping("/ordenar")
     public String ordenar() {
-        service.ordenarPorNome();
+        produtoService.ordenarPorNome();
         return "redirect:/produtos";
     }
 
     // Aplicar aumento
     @PostMapping("/aumento")
     public String aumento(@RequestParam double percentual) {
-        service.aplicarAumento(percentual);
+        produtoService.aplicarAumento(percentual);
         return "redirect:/produtos";
     }
 
@@ -80,4 +86,26 @@ public class ProdutoController {
         model.addAttribute("total", produtoService.getTotalVendas());
         return "relatorios";
     }
+
+    // Rota para a página inicial (index)
+    @GetMapping("/")
+    public String index() {
+        return "index"; // Nome do template Thymeleaf: index.html
+    }
+    
+    // Buscar produto pelo código
+    @GetMapping("/buscar")
+    public String buscarProduto(@RequestParam String codigo, Model model) {
+        Produto produto = produtoService.buscarPorCodigo(codigo);
+    
+        if (produto != null) {
+            model.addAttribute("produtos", List.of(produto)); // Lista com apenas um produto
+        } else {
+            model.addAttribute("produtos", produtoService.getTodosProdutos());
+            model.addAttribute("mensagem", "Produto não encontrado!");
+        }
+    
+        return "listar"; // Retorna a página da listagem com o resultado
+    }
+
 }

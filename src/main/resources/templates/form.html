@@ -29,9 +29,16 @@
             padding: 10px;
             font-size: 16px;
         }
+        /* Estilização para a barra de busca */
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Formulário para cadastro de novo produto -->
     <div class="form-container">
         <h2>Novo Produto</h2>
         <form th:action="@{/produtos/salvar}" method="post" th:object="${produto}">

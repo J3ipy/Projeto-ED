@@ -10,6 +10,21 @@ public class ProdutoService {
     private List<Produto> produtos = new ArrayList<>();
     private List<String> historicoVendas = new ArrayList<>();
     private double totalVendas = 0;
+    
+    public void salvarProduto(Produto produto) {
+        Produto existente = buscarPorCodigo(produto.getCodigo());
+        if (existente != null) {
+            // Atualiza os dados do produto existente
+            existente.setDescricao(produto.getDescricao());
+            existente.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+            existente.setValorSaida(produto.getValorSaida());
+            // Atualize outros campos, se houver
+        } else {
+            // Se não existir, adiciona como novo
+            produtos.add(produto);
+        }
+    }
+
 
     // Adicionar produto
     public void adicionarProduto(Produto produto) {
@@ -80,9 +95,17 @@ public class ProdutoService {
             p.setValorSaida(p.getValorSaida() * (1 + percentual / 100));
         });
     }
+    
 
-    // Getters
-    public List<Produto> getTodosProdutos() { return produtos; }
-    public List<String> getHistoricoVendas() { return historicoVendas; }
-    public double getTotalVendas() { return totalVendas; }
+    public List<Produto> getTodosProdutos() {
+        return produtos;
+    }
+    
+    public List<String> getHistoricoVendas() {
+        return historicoVendas;
+    }
+
+    public double getTotalVendas() {
+        return totalVendas;
+    }
 }

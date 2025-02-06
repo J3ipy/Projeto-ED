@@ -48,7 +48,8 @@
 <body>
     <div class="report-container">
         <h1>Relatórios</h1>
-        <a href="/produtos">Voltar</a>
+        <!-- Botão "Voltar" estilizado -->
+        <a href="/produtos" class="btn btn-secondary mb-3">Voltar</a>
 
         <!-- Seção de Vendas -->
         <h2>Vendas</h2>
@@ -57,20 +58,47 @@
                 <span th:text="${venda}"></span>
             </li>
         </ul>
-        <p class="total-vendas">Total Vendido: R$ <span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
+        <p class="total-vendas">
+            Total Vendido: R$ 
+            <span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span>
+        </p>
 
         <!-- Seção de Estoque Baixo -->
         <h2>Estoque Baixo</h2>
         <ul class="list-group">
-            <!-- Verifica se a lista de produtos não é nula -->
-            <li class="list-group-item estoque-baixo" th:each="p : ${produtos}" th:if="${p.quantidadeEstoque < 10}">
-                [[${p.descricao}]] - [[${p.quantidadeEstoque}]] un.
+            <!-- Lista produtos com estoque menor que 10 -->
+            <li class="list-group-item estoque-baixo" 
+                th:each="p : ${produtos}" 
+                th:if="${p.quantidadeEstoque < 10}">
+                <span th:text="${p.descricao}"></span> - 
+                <span th:text="${p.quantidadeEstoque}"></span> un.
             </li>
             <!-- Mensagem caso não haja produtos com estoque baixo -->
             <li class="list-group-item" th:if="${produtos == null or produtos.isEmpty()}">
                 Nenhum produto com estoque baixo.
             </li>
         </ul>
+
+        <!-- Seção de Estoque Atual -->
+        <h2>Estoque Atual</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Valor de Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${produtos}">
+                    <td th:text="${p.codigo}">Código</td>
+                    <td th:text="${p.descricao}">Descrição</td>
+                    <td th:text="${p.quantidadeEstoque}">Quantidade</td>
+                    <td th:text="${#numbers.formatDecimal(p.valorSaida, 1, 2)}">Valor</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Bootstrap JS e dependências -->
