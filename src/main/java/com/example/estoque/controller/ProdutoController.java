@@ -64,10 +64,11 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
-    // Ordenar por nome
     @GetMapping("/ordenar")
-    public String ordenar() {
-        produtoService.ordenarPorNome();
+    public String ordenar(Model model) {
+        List<Produto> produtos = produtoService.getTodosProdutos();
+        produtoService.mergeSortPorNome(produtos); // Ordenação pelo nome usando Merge Sort
+        model.addAttribute("produtos", produtos);
         return "redirect:/produtos";
     }
 

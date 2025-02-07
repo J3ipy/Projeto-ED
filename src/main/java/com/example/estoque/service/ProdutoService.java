@@ -31,32 +31,59 @@ public class ProdutoService {
         produtos.add(produto);
     }
 
-    // MergeSort
-    public void ordenarPorNome() {
-        produtos = mergeSort(produtos);
-    }
-
-    private List<Produto> mergeSort(List<Produto> lista) {
-        if (lista.size() <= 1) return lista;
-        int meio = lista.size() / 2;
-        List<Produto> esquerda = mergeSort(lista.subList(0, meio));
-        List<Produto> direita = mergeSort(lista.subList(meio, lista.size()));
-        return merge(esquerda, direita);
-    }
-
-    private List<Produto> merge(List<Produto> esq, List<Produto> dir) {
-        List<Produto> resultado = new ArrayList<>();
-        int i = 0, j = 0;
-        while (i < esq.size() && j < dir.size()) {
-            if (esq.get(i).getDescricao().compareToIgnoreCase(dir.get(j).getDescricao()) < 0) {
-                resultado.add(esq.get(i++));
-            } else {
-                resultado.add(dir.get(j++));
-            }
+    public void mergeSortPorNome(List<Produto> produtos) {
+        if (produtos == null || produtos.size() < 2) {
+            return;
         }
-        resultado.addAll(esq.subList(i, esq.size()));
-        resultado.addAll(dir.subList(j, dir.size()));
-        return resultado;
+        mergeSort(produtos, 0, produtos.size() - 1);
+    }
+
+    private void mergeSort(List<Produto> produtos, int esquerda, int direita) {
+        if (esquerda < direita) {
+            int meio = esquerda + (direita - esquerda) / 2;
+            mergeSort(produtos, esquerda, meio);
+            mergeSort(produtos, meio + 1, direita);
+            merge(produtos, esquerda, meio, direita);
+        }
+    }
+
+    private void merge(List<Produto> produtos, int esquerda, int meio, int direita) {
+        int tamanhoEsquerda = meio - esquerda + 1;
+        int tamanhoDireita = direita - meio;
+
+        Produto[] esquerdaArray = new Produto[tamanhoEsquerda];
+        Produto[] direitaArray = new Produto[tamanhoDireita];
+
+        for (int i = 0; i < tamanhoEsquerda; i++) {
+            esquerdaArray[i] = produtos.get(esquerda + i);
+        }
+        for (int j = 0; j < tamanhoDireita; j++) {
+            direitaArray[j] = produtos.get(meio + 1 + j);
+        }
+
+        int i = 0, j = 0, k = esquerda;
+        while (i < tamanhoEsquerda && j < tamanhoDireita) {
+            if (esquerdaArray[i].getNome().compareToIgnoreCase(direitaArray[j].getNome()) <= 0) {
+                produtos.set(k, esquerdaArray[i]);
+                i++;
+            } else {
+                produtos.set(k, direitaArray[j]);
+                j++;
+            }
+            k++;
+        }
+
+        while (i < tamanhoEsquerda) {
+            produtos.set(k, esquerdaArray[i]);
+            i++;
+            k++;
+        }
+
+        while (j < tamanhoDireita) {
+            produtos.set(k, direitaArray[j]);
+            j++;
+            k++;
+        }
     }
 
     // Buscar produto

@@ -63,22 +63,6 @@
             <span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span>
         </p>
 
-        <!-- Seção de Estoque Baixo -->
-        <h2>Estoque Baixo</h2>
-        <ul class="list-group">
-            <!-- Lista produtos com estoque menor que 10 -->
-            <li class="list-group-item estoque-baixo" 
-                th:each="p : ${produtos}" 
-                th:if="${p.quantidadeEstoque < 10}">
-                <span th:text="${p.descricao}"></span> - 
-                <span th:text="${p.quantidadeEstoque}"></span> un.
-            </li>
-            <!-- Mensagem caso não haja produtos com estoque baixo -->
-            <li class="list-group-item" th:if="${produtos == null or produtos.isEmpty()}">
-                Nenhum produto com estoque baixo.
-            </li>
-        </ul>
-
         <!-- Seção de Estoque Atual -->
         <h2>Estoque Atual</h2>
         <table class="table table-bordered">
